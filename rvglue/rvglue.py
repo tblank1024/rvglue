@@ -34,7 +34,7 @@ class mqttclient():
                         TargetTopics[topic] = {}
                     TargetTopics[topic][entryvar] = tmp
                     local_topic = topic + '/' + entryvar
-                    AliasData[tmp] = ''
+                    AliasData[tmp] = 3.14
                     MQTTNameToAliasName[local_topic] = tmp
         if debug > 0:
             #print('>>All Data:')
@@ -106,7 +106,8 @@ class mqttclient():
                 os.sys.stdout.flush()
                 msg_counter = 0
     
-    def pub(self, payload, qos=0, retain=False):
+    @staticmethod
+    def pub(payload, qos=0, retain=False):
         global client, debug, topic_prefix
                 
         if "instance" in payload:
@@ -376,7 +377,7 @@ if __name__ == "__main__":
     else:
         mode = 'pub'
     mqttTopic = args.topic
-    RVC_Client = mqttclient(mode,broker, port, "dgn_variables.json",'_var', mqttTopic, debug)
+    RVC_Client = mqttclient(mode,broker, port, '_var', mqttTopic, debug)
     if mode == 'sub':
         RVC_Client.run_mqtt_infinite()
     else:
@@ -384,7 +385,7 @@ if __name__ == "__main__":
             time.sleep(6)
             #update AllData dictionary with new variable data
             """  target topic from json file 
-            "BATTERY_STATUS":{                         
+            "BATTERY_STATUS/1":{                         
                     "instance":1,
                     "name":"BATTERY_STATUS",
                     "DC_voltage":                                               "_var18Batt_voltage",
@@ -393,8 +394,8 @@ if __name__ == "__main__":
                     "Status":                                                    ""},
             """ 
             #Update the dictionary with new data and publish
-            AllData['BATTERY_STATUS']["DC_voltage"] = 12.0 + random.random()
-            AllData['BATTERY_STATUS']["DC_current"] =  20 * random.random() - 10
-            AllData['BATTERY_STATUS']["State_of_charge"] = 100 - random.random()*100
-            AllData['BATTERY_STATUS']["Status"] = "OK"
-            RVC_Client.pub(AllData['BATTERY_STATUS'])
+            AllData['BATTERY_STATUS/1']["DC_voltage"] = 12.0 + random.random()
+            AllData['BATTERY_STATUS/1']["DC_current"] =  20 * random.random() - 10
+            AllData['BATTERY_STATUS/1']["State_of_charge"] = 100 - random.random()*100
+            AllData['BATTERY_STATUS/1']["Status"] = "OK"
+            RVC_Client.pub(AllData['BATTERY_STATUS/1'])

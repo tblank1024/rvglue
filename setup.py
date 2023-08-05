@@ -6,7 +6,7 @@ setup(
     package_dir={
         "": "rvglue",
     },
-    packages=["rvglue"],
+    packages=find_packages(""),
     install_requires=[
         'paho-mqtt==1.6.1'
         ],

@@ -1,3 +1,3 @@
 #this is a python file
-from .constants import PI
+from .master_dict import MasterDict
 from .rvglue import mqttclient as MQTTClient

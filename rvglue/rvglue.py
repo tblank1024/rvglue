@@ -4,7 +4,7 @@ import os, argparse,  time, random, json
 import re       # regular expressions   
 import paho.mqtt.client as mqtt
 from pprint import pprint
-import master_dict as md
+from master_dict import MasterDict
 
 
 #globals
@@ -148,7 +148,7 @@ if __name__ == "__main__":
     # 2 - more reporting of both send/rec
     # 3 - heavy reporting of both send/rec and all raw data
 
-    pprint(md.MasterDict)
+    pprint(MasterDict)
 
     if args.mode == 'sub':
         mode = 'sub'
@@ -172,8 +172,8 @@ if __name__ == "__main__":
                     "Status":                                                    ""},
             """ 
             #Update the dictionary with new data and publish
-            md.MasterDict['BATTERY_STATUS/1']["DC_voltage"] = 12.0 + random.random()
-            md.MasterDict['BATTERY_STATUS/1']["DC_current"] =  20 * random.random() - 10
-            md.MasterDict['BATTERY_STATUS/1']["State_of_charge"] = 100 - random.random()*100
-            md.MasterDict['BATTERY_STATUS/1']["Status"] = "OK"
-            RVC_Client.pub(md.MasterDict['BATTERY_STATUS/1'])
+            MasterDict['BATTERY_STATUS/1']["DC_voltage"] = 12.0 + random.random()
+            MasterDict['BATTERY_STATUS/1']["DC_current"] =  20 * random.random() - 10
+            MasterDict['BATTERY_STATUS/1']["State_of_charge"] = 100 - random.random()*100
+            MasterDict['BATTERY_STATUS/1']["Status"] = "OK"
+            RVC_Client.pub(MasterDict['BATTERY_STATUS/1'])

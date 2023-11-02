@@ -4,7 +4,7 @@ import os, argparse,  time, random, json
 import re       # regular expressions   
 import paho.mqtt.client as mqtt
 from pprint import pprint
-from master_dict import MasterDict
+from .master_dict import MasterDict
 
 
 #globals

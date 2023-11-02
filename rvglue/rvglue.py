@@ -20,16 +20,16 @@ debug = 0
 class mqttclient():
 
     def __init__(self, initmode, mqttbroker,mqttport, varIDstr, topic_prefix, debug):
-        global client, MasterDictionary, AliasData, MQTTNameToAliasName, TargetTopics, mode
+        global client, MasterDict, AliasData, MQTTNameToAliasName, TargetTopics, mode
 
         mode = initmode
 
-        for item in MasterDictionary:
+        for item in MasterDict:
             #instance number is included in key but not topic prefix
             topic = topic_prefix + '/' + item
             
-            for entryvar in MasterDictionary[item]:
-                tmp = MasterDictionary[item][entryvar]
+            for entryvar in MasterDict[item]:
+                tmp = MasterDict[item][entryvar]
                 if  isinstance(tmp, str) and tmp.startswith(varIDstr):
                     if topic not in TargetTopics:
                         TargetTopics[topic] = {}
@@ -39,7 +39,7 @@ class mqttclient():
                     MQTTNameToAliasName[local_topic] = tmp
         if debug > 0:
             #print('>>All Data:')
-            #pprint(MasterDictionary)
+            #pprint(MasterDict)
             print('>>TargetTopics:')
             pprint(TargetTopics)
             print('>>MQTTnameToAliasName:')

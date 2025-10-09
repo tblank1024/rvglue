@@ -1,5 +1,6 @@
 #ignore all files in any of the following directories
 rvglue/__pycache__
+rvglue.egg-info/
 
 #ignore all files of with following format
 *.*~

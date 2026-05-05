@@ -1,5 +1,6 @@
 #ignore all files in any of the following directories
 rvglue/__pycache__
+raspap/__pycache__
 
 #ignore all files of with following format
 *.*~

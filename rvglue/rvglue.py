@@ -13,6 +13,7 @@ msg_counter = 0
 TargetTopics = {}
 MQTTNameToAliasName = {}
 AliasData = {}
+AliasDataTS = {}  # epoch seconds of last update per alias — absent/old means stale
 client = None
 mode = 'sub'
 debug = 0
@@ -84,18 +85,20 @@ class mqttclient():
 
     # The callback for when a PUBLISH message is received from the MQTT server.
     def _on_message(self, client, userdata, msg):
-        global TargetTopics, msg_counter, AliasData, MQTTNameToAliasName
+        global TargetTopics, msg_counter, AliasData, AliasDataTS, MQTTNameToAliasName
         if debug>2:
             print(msg.topic+ " " + str(msg.payload))
         msg_dict = json.loads(msg.payload.decode('utf-8'))
 
         for item in TargetTopics[msg.topic]:
             if item == 'instance':
-                break
+                continue  # Skip instance field but continue processing other fields
             if debug>2:
                 print('*** ',item,'= ', msg_dict[item])
             tmp = msg.topic + '/' + item
-            AliasData[MQTTNameToAliasName[tmp]] = msg_dict[item]
+            alias = MQTTNameToAliasName[tmp]
+            AliasData[alias] = msg_dict[item]
+            AliasDataTS[alias] = time.time()
 
         if debug > 0 and debug < 3:
             #This is a poor way to provide a UI but tkinter isn't working
